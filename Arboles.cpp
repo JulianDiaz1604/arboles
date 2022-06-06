@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -16,7 +18,7 @@ void menu();
 void insertar(Nodo *&arbol, string nombre, int id);
 
 // Simon
-void mostrar(Nodo *arbol, int cont);
+void mostrar(Nodo *arbol);
 
 // Jarod
 void encontrarRuta(Nodo *arbol, string origen, string destino);
@@ -48,13 +50,93 @@ void insertar(Nodo *&arbol, string nombre, int id){
     }
 }
 
-void mostrar(Nodo *arbol, int n){
+void mostrar(Nodo *arbol){
+
+}
+
+void encontrarRuta(Nodo *arbol, string origen, string destino){
 
 }
 
 void menu(){
     crearArbol();
+    int opcion;
 
+    do {
+        FILE *banner = fopen("C:\\Users\\diazj\\Documents\\Arboles\\banner.txt", "r");
+        int aux;
+        while ((aux = fgetc(banner)) != EOF) {
+            putchar(aux);
+        }
+        cout << endl << endl << endl;
+        cout << "  |  |                                                                       |  |  " << endl;
+        cout << "  |  |                                                                       |  |  " << endl;
+        cout << "  |  |                         1. Encontrar mi ruta                          |  |  " << endl;
+        cout << "  |  |                           2. Mostrar arbol                            |  |  " << endl;
+        cout << "  |  |                              3. Salir                                 |  |  " << endl;
+        cout << "  |  |                                                                       |  |  " << endl;
+        cout << "  |  |                                                                       |  |  " << endl;
+        cout << "                              Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+
+            case 1:
+            {
+                system("cls");
+                string origen;
+                string destino;
+                cout << "\n   _________________________________________________";
+                cout << "\n   -------------------------------------------------";
+                cout << "\n\n      Ingrese el municipio de origen: ";
+                cin >> origen;
+                cout << "\n\n      Ingrese el municipio de destino: ";
+                cin >> destino;
+                encontrarRuta(arbol, origen, destino);
+                cout << "\n   _________________________________________________";
+                cout << "\n   -------------------------------------------------\n\n";
+                system("pause");
+
+                break;
+            }
+
+            case 2:
+            {
+                system("cls");
+                cout << "\n   _________________________________________________";
+                cout << "\n   -------------------------------------------------";
+                mostrar(arbol);
+                cout << "\n   _________________________________________________";
+                cout << "\n   -------------------------------------------------\n\n";
+                system("pause");
+
+                break;
+            }
+
+            case 3:
+            {
+                system("cls");
+                cout << "\n   _________________________________________________";
+                cout << "\n   -------------------------------------------------";
+                cout << "\n\n                      Saliendo...               \n";
+                cout << "\n   _________________________________________________";
+                cout << "\n   -------------------------------------------------\n\n";
+                system("pause");
+
+                break;
+            }
+
+            default:
+            {
+                cout << "\n\n\n                            Ingrese una opcion valida\n\n";
+                system("pause");
+
+                break;
+            }
+
+        }
+        system("cls");
+    } while (opcion != 3);
 }
 
 void crearArbol(){
