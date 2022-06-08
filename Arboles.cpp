@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 
 using namespace std;
 
@@ -11,26 +12,17 @@ struct Nodo{
     Nodo *derecha;
 };
 
-// Julian
 void menu();
-
-//Listo, comprobar funcionamiento
 void insertar(Nodo *&arbol, string nombre, int id);
-
-// Simon
-void mostrar(Nodo *arbol);
-
-// Jarod
+void mostrar(Nodo *arbol, int aux);
 void encontrarRuta(Nodo *arbol, string origen, string destino);
-
-//Listo, comprobar funcionamiendo
 void crearArbol();
-
-//Listo, comprobar funcionamiento
 Nodo *crearNodo(string nombre, int id);
+void gotoxy(int x, int y);
+void inOrden(Nodo *arbol);
 
 Nodo *arbol = NULL;
-
+int auxX = 0;//Variable publica.
 
 int main(){
     menu();
@@ -50,8 +42,41 @@ void insertar(Nodo *&arbol, string nombre, int id){
     }
 }
 
-void mostrar(Nodo *arbol){
+void mostrar(Nodo *arbol, int auxY) {//auxY es el nivel del arbol
 
+    if (arbol == NULL) {//Arbol vacio nada que mostrar
+        return;
+    }
+
+    auxX += 5;//variable que permite posicionarse en el eje X
+
+    mostrar(arbol->izquierda, auxY + 2);//Se para hasta el nodo mas a la izquierda del árbol construye primero el subarbol izq porque sus valores en X son menores
+
+    gotoxy(5 + auxX - auxY, 3 + auxY);//posiciona el nodo segun sus variables en X y en Y
+
+    cout << arbol->id << endl << endl;//Muestra el dato del nodo respectivo
+
+    mostrar(arbol->derecha, auxY + 2);//Se para hasta el nodo mas a la derecho del árbol
+    //Se debe tener el cuenta el funcionamiento de la recursividad la cual implementa una pila para almacenar las instrucciones
+}
+
+void gotoxy(int x, int y){
+    HANDLE hcon;
+    hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD dwPos;
+    dwPos.X = x;
+    dwPos.Y = y;
+    SetConsoleCursorPosition(hcon, dwPos);
+}
+
+void inOrden(Nodo *arbol){
+    if (arbol == NULL){
+        return;
+    } else {
+        inOrden(arbol -> izquierda);
+        cout << "        " << arbol -> nombre << ": " << arbol -> id << endl;
+        inOrden(arbol ->derecha);
+    }
 }
 
 void encontrarRuta(Nodo *arbol, string origen, string destino){
@@ -103,11 +128,13 @@ void menu(){
             case 2:
             {
                 system("cls");
-                cout << "\n   _________________________________________________";
-                cout << "\n   -------------------------------------------------";
-                mostrar(arbol);
-                cout << "\n   _________________________________________________";
-                cout << "\n   -------------------------------------------------\n\n";
+                cout << "\n   ____________________________________________________________________________________________________________________________";
+                cout << "\n   ----------------------------------------------------------------------------------------------------------------------------";
+                mostrar(arbol, 6);
+                cout << "\n\n\n\n\n\n\n\n   ____________________________________________________________________________________________________________________________";
+                cout << "\n   ----------------------------------------------------------------------------------------------------------------------------\n\n";
+                inOrden(arbol);
+                cout << endl;
                 system("pause");
 
                 break;
